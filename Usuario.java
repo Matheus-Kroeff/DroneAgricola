@@ -6,7 +6,6 @@ public class Usuario {
    private int id;
    private String nome;
    private String email;
-   private String tipoAcesso; // Usará as constantes acima
    private String senhaHash;
 
    // Construtor
@@ -14,7 +13,6 @@ public class Usuario {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.tipoAcesso = tipoAcesso;
         // Simulação de segurança: Hash da senha deve ser feito aqui
         this.senhaHash = gerarHashSeguro(senhaPura);
     }
@@ -39,6 +37,8 @@ public class Usuario {
     public boolean isOperador() {
         return this.tipoAcesso.equals(TIPO_OPERADOR);
     }
+
+   public abstract boolean podeAgendarMissao();
 
 
     // Método simulado para hash seguro (demonstração)
