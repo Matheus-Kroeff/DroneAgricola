@@ -1,4 +1,4 @@
-public class Drone {
+public class Drone implements CheckListVoo {
 
     // Atributos privados 
     private int id;
@@ -29,6 +29,23 @@ public class Drone {
         }
 
         // Validação dos Sensores
+        if (!this.sensoresFuncionando) {
+            System.out.println("Alerta de Segurança: Sensores principais não estão funcionando!");
+            return false;
+        }
+
+        System.out.println("Checklist OK: Drone apto para o voo.");
+        return true;
+    }
+
+    @Override
+    public boolean checarAptidao() {
+        // Lógica de Segurança existente do checklist de bateria e sensores
+        if (this.bateriaMinima < BATERIA_REQUISITO) {
+            System.out.println("Alerta de Segurança: Bateria insuficiente (" + this.bateriaMinima + "%)!");
+            return false;
+        }
+
         if (!this.sensoresFuncionando) {
             System.out.println("Alerta de Segurança: Sensores principais não estão funcionando!");
             return false;
