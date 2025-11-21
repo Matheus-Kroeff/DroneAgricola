@@ -7,8 +7,7 @@ public class Main {
         
         System.out.println("--- INICIANDO SISTEMA DE AGENDAMENTO DE MISSÕES ---");
 
-        // 1. Setup: Criar as Entidades Base
-        // CORREÇÃO: Usuario é abstrato, instancie OperadorDrone
+        // Setup: Criar as Entidades Base
         OperadorDrone operador = new OperadorDrone(1, "Ana Operadora", "ana@drone.com", "senha123"); 
         AreaAgricola area1 = new AreaAgricola(101, 50.0, "Fazenda Central", "Soja");
         
