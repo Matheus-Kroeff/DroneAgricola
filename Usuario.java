@@ -1,4 +1,4 @@
-public class Usuario { 
+public abstract class Usuario { 
 
    public static final String TIPO_ADMIN = "Administrador";
    public static final String TIPO_OPERADOR = "Operador";
