@@ -1,13 +1,11 @@
 public abstract class Usuario { 
-   // Constantes e métodos isX() removidos pois as subclasses definem o tipo
-   // A responsabilidade de login é mantida aqui.
 
    private int id;
    private String nome;
    private String email;
    private String senhaHash;
 
-   // Construtor: REMOVIDO o argumento String tipoAcesso
+   // Construtor
     public Usuario(int id, String nome, String email, String senhaPura) {
         this.id = id;
         this.nome = nome;
