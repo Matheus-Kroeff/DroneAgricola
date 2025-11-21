@@ -27,7 +27,7 @@ public class MissaoVoo {
     public boolean validarNaoSobreposta() {
         
         // Check de Segurança Pré-Voo
-        if (!this.droneUtilizado.checarPreVoo()) {
+        if (!this.droneUtilizado.checarAptidao()) {
             return false;
         }
 
