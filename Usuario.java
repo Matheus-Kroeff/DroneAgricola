@@ -9,7 +9,7 @@ public abstract class Usuario {
    private String senhaHash;
 
    // Construtor
-    public Usuario(int id, String nome, String email, String tipoAcesso, String senhaPura) {
+    public Usuario(int id, String nome, String email,  String senhaPura) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -29,14 +29,6 @@ public abstract class Usuario {
         return this.senhaHash.equals(hashTentativa);
     }
 
-    // Define se o usuário tem permissão para realizar uma ação.
-    public boolean isAdministrador() {
-        return this.tipoAcesso.equals(TIPO_ADMIN);
-    }
-
-    public boolean isOperador() {
-        return this.tipoAcesso.equals(TIPO_OPERADOR);
-    }
 
    public abstract boolean podeAgendarMissao();
 
