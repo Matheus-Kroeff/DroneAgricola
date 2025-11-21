@@ -1,64 +1,68 @@
 # 🛰️ Sistema de Monitoramento Agrícola com Drones
 
-## Visão Geral do Projeto
+## 📝 Visão Geral do Projeto
 
-Este projeto consiste em um sistema de software para uma cooperativa rural focado no **monitoramento periódico de plantações utilizando drones**. O objetivo é coletar imagens e dados ambientais (temperatura, umidade e pragas) de forma eficiente e, principalmente, **segura**.
+O Sistema de Monitoramento Agrícola é desenvolvido para uma cooperativa rural com o objetivo de gerenciar o agendamento de **missões de voo** e a coleta de dados ambientais (imagens, temperatura, umidade) usando drones.
 
-O desenvolvimento inicial segue os princípios da Orientação a Objetos (OO) com foco rigoroso em **Engenharia de Software e Segurança**.
+O projeto foca em aplicar rigorosos princípios de **Engenharia de Software (UML, Orientação a Objetos)** e **Segurança**, garantindo a integridade dos dados e a segurança operacional dos drones.
 
-## 🚀 Funcionalidades Mínimas Implementadas
+---
 
-O sistema atende aos seguintes requisitos funcionais e de segurança:
+## ✅ Sprint 1: Modelagem, Segurança e Integração (Concluído)
 
-| Funcionalidade | Status | Destaque em Segurança |
+A primeira fase do projeto estabeleceu a arquitetura fundamental e implementou os requisitos críticos de segurança.
+
+### 1. Entidades de Domínio e Classes Principais
+
+Todas as entidades foram mapeadas com foco em **Encapsulamento** e **Separação de Responsabilidades**:
+
+* `AreaAgricola`, `Usuario`, `Drone`, `DadoColetado`.
+* `MissaoVoo`: Centraliza as regras de agendamento e segurança.
+* `MissaoDAO`: Objeto de Acesso a Dados, responsável apenas pela persistência segura.
+
+### 2. Diagramas de Análise e Projeto (UML Formal)
+
+Os diagramas foram formalmente detalhados para cumprir os requisitos de documentação:
+
+#### A. Diagrama de Classes
+* **Foco:** Estrutura estática com notação formal (visibilidade, tipos de dados e associações).
+
+
+
+#### B. Diagrama de Sequência (Fluxo Seguro)
+* **Foco:** Detalhar a ordem das chamadas do processo de agendamento, integrando segurança e tratamento de erros.
+
+
+
+### 3. Integração e Segurança (Etapa Crítica)
+
+O sistema garante a segurança da persistência de dados e da operação do hardware:
+
+| Requisito de Segurança | Classe(s) Implementada(s) | Mecanismo de Proteção |
 | :--- | :--- | :--- |
-| **Cadastro de Áreas Agrícolas** | Modelado | - |
-| **Cadastro de Drones** | Modelado/Codificado | **Checklist de Pré-Voo** (`checarPreVoo()`) |
-| **Agendamento de Missões** | Modelado | **Validação de Não Sobreposição** |
-| **Registro de Dados Coletados** | Modelado | **Persistência Segura** (Prevenção contra Injeção de SQL) |
-| **Controle de Acesso** | Modelado | Diferenciação entre Administrador e Operador |
+| **Checklist de Pré-Voo** | `Drone.java` | Lógica `checarPreVoo()` (Bateria Mínima, Sensores OK) chamada antes de agendar. |
+| **Armazenamento de Senha** | `Usuario.java` | Uso de `senhaHash` e método seguro, prevenindo armazenamento de senha em texto puro no BD. |
+| **Anti-Injeção de SQL** | `MissaoDAO.java` | Utilização de **`PreparedStatement`** no comando `INSERT`, que trata os dados como valores (e não código SQL). |
+| **Não Sobreposição de Missões**| `MissaoVoo.java` | Lógica `validarNaoSobreposta()` checa conflitos de horário com o BD. |
 
 ---
 
-## 🏗️ Modelagem e Arquitetura (Sprint 1)
+## 🏗️ Sprint 2: Arquitetura e Abstração (Próximos Passos)
 
-O primeiro ciclo de desenvolvimento (Sprint 1) focou na modelagem estrutural e comportamental, e na integração inicial com o banco de dados.
+O próximo ciclo se concentra no refinamento da arquitetura utilizando abstrações de nível superior.
 
-### 1. Diagrama de Classes (Estrutura Estática)
+### ETAPA #5: Diagrama de Projeto (com abstrações e interfaces)
 
-O modelo identifica as entidades centrais do domínio e seus relacionamentos:
+O foco será refatorar o código para melhorar a escalabilidade e manutenção:
 
-* **Classes Principais:** `Usuario`, `AreaAgricola`, `Drone`, `MissaoVoo`, `DadoColetado`.
-* **Relacionamentos Chave:**
-    * **Composição:** Uma `MissaoVoo` **gera** vários `DadoColetado` (os dados não existem sem a missão).
-    * **Associação:** `MissaoVoo` **utiliza** um `Drone` e **cobre** uma `AreaAgricola`.
-
-### 2. Diagrama de Sequência (Comportamento Dinâmico)
-
-Modelamos o fluxo crítico de **"Agendar Missão de Voo"** para validar a integração dos requisitos de segurança:
-
-1.  O **Sistema** inicia a validação chamando `Drone.checarPreVoo()`.
-2.  Somente se o checklist de segurança for aprovado, a validação de `MissaoVoo.validarNaoSobreposta()` é executada.
-3.  A persistência no banco de dados ocorre somente após todas as validações de segurança e negócio.
-
-### 3. Integração de Modelos (Classes + Banco de Dados)
-
-A persistência de dados foi implementada seguindo rigorosos padrões de segurança:
-
-#### A. Modelo Relacional (SQL DDL)
-
-O modelo de classes foi mapeado para as seguintes tabelas no banco de dados, com a definição de Chaves Primárias (`PRIMARY KEY`) e Chaves Estrangeiras (`FOREIGN KEY`):
-* `TB_USUARIO`, `TB_AREA`, `TB_DRONE`, `TB_MISSAO`, `TB_DADOS_COLETADOS`.
-
-#### B. Persistência Segura em Java
-
-* **Classe:** `MissaoDAO.java`
-* **Técnica de Segurança:** Utiliza **`PreparedStatement`** para todos os comandos de `INSERT` e `UPDATE`. Isso garante que as entradas de dados do usuário (ou sensores) sejam tratadas **apenas como dados** e **nunca como código SQL**, prevenindo ataques de Injeção de SQL.
+* **Abstração e Herança:** A classe **`Usuario`** será transformada em **abstrata**, criando as subclasses **`Administrador`** e **`OperadorDrone`** para lidar com permissões distintas.
+* **Interfaces:** Criação da interface **`ChecklistVoo`** para padronizar o contrato de verificação de aptidão de voo, garantindo que o método `checarPreVoo()` siga um contrato formal.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Tecnologias e Ferramentas
 
 * **Linguagem:** Java
-* **Modelagem:** UML (Diagrama de Classes, Diagrama de Sequência)
-* **Persistência:** SQL (JDBC)
+* **Modelagem:** UML 2.0 (PlantUML/Mermaid)
+* **Persistência:** SQL (JDBC, DDL)
+* **Princípios:** Encapsulamento, Separação de Responsabilidades (DAO), Prevenção de Injeção de SQL.
