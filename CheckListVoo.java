@@ -1,4 +1,4 @@
-public interface ChecklistVoo {
+public interface CheckListVoo {
 
     boolean checarAptidao();
     
