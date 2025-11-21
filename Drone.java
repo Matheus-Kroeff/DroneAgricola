@@ -19,24 +19,6 @@ public class Drone implements CheckListVoo {
         this.status = "Disponível"; // Status inicial
     }
 
-    // Método de Segurança: Checklist de Pré-Voo
-    // Implementa o requisito: "Checklist de segurança antes do voo (bateria mínima e sensores funcionando)."
-    public boolean checarPreVoo() {
-        // Validação da Bateria
-        if (this.bateriaMinima < BATERIA_REQUISITO) {
-            System.out.println("Alerta de Segurança: Bateria insuficiente (" + this.bateriaMinima + "%)!");
-            return false;
-        }
-
-        // Validação dos Sensores
-        if (!this.sensoresFuncionando) {
-            System.out.println("Alerta de Segurança: Sensores principais não estão funcionando!");
-            return false;
-        }
-
-        System.out.println("Checklist OK: Drone apto para o voo.");
-        return true;
-    }
 
     @Override
     public boolean checarAptidao() {
